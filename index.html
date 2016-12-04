@@ -98,16 +98,18 @@ In general, n-gram is an inefficient model of language. This is because language
 We give the input to the network as the sum of all one-hot vectors of the corresponding context words. Let this final sum of vectors be represented by X. So X will be a Vx1 matrix, where V is the size of our dictionary. So X will somewhat look like this : (0,0,1,0,1,0,0,1,0....0), where 1 will occupy in the index of the context word in our dictionary, and 0 in the rest. Let us take input as a single word, for simplicity. Now we give this vector X as the input to our neural network.</p>
 
 <p><strong>Hidden Layer</strong>
-The input vector is then multiplied by the transpose of W, which is a VxN matrix. As the input vector is of the form (0,0,0,1,0,0,0...0), we just need to find one row vector of W(4th row in this case) instead of the whole matrix. The result is an Nx1 vector which is represented by <em>v</em>'.</p>
+The input vector is then multiplied by the transpose of W, which is a VxN matrix. As the input vector is of the form (0,0,0,1,0,0,0...0), we just need to find one row vector of W(4th row in this case) instead of the whole matrix. The result is an Nx1 vector which is represented by <em>v</em> '.</p>
 
 <p><strong>Output Layer</strong>
-This vector <em>v</em>' is further multiplied by the transpose of W', which is an NxV matrix. The result would be a Vx1 vector. But we already know that the output vector is something of the form (0,1,0,0,0...0) where 1 would occupy the index of the next word in the sentence, which we are trying to predict. So by comparing the matrix multiplication with the actual output, we can observe that we just need to find one column vector of W'(2nd in this case) instead of the whole matrix.</p>
+This vector <em>v</em> ' is further multiplied by the transpose of W', which is an NxV matrix. The result would be a Vx1 vector. But we already know that the output vector is something of the form (0,1,0,0,0...0) where 1 would occupy the index of the next word in the sentence, which we are trying to predict. So by comparing the matrix multiplication with the actual output, we can observe that we just need to find one column vector of W'(2nd in this case) instead of the whole matrix.</p>
 
 <p>In order to get probabilities, we apply softmax function to this output.</p>
 
 <p><img src="http://i.stack.imgur.com/m4x7n.jpg" alt="Softmax"></p>
 
-<p>As we are dealing with probabilities, we would choose log-likelihood as our cost function to maximize this probability. </p>
+<p>So we have to find a row vector of W(the second term in the numerator) and a column vector of W'(the first term in the numerator). In fact, these 2 vectors are the vector representations of the output word! Yes, each word is represented by two vectors, which can finally be summed to get one single representation. In order to find these two vectors, we first need to define our cost function.</p>
+
+<p>As we are dealing with probabilities, we would choose log-likelihood as the cost function to maximize this probability. </p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Siddhant7/word2vec">word2vec</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
