@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>word2vec by Siddhant7</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">word2vec</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/Siddhant7/word" class="btn">View on GitHub</a>
+      <a href="https://github.com/Siddhant7/word/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Siddhant7/word/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p>In this article, I try to explain the very popular word2vec model by <a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">Tomas Mikolov</a>. This model is used for learning vector representations of words, called "word embeddings".(supervised vs unsupervised)</p>
+
+<h3>
+<a id="highlights" class="anchor" href="#highlights" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Highlights</strong>
+</h3>
+
+<ul>
+<li>I start by giving the motivation for why we would want to represent words as vectors.</li>
+<li>I will then briefly cover on the traditional methods used for word embeddings.</li>
+<li>After introducing the concept of probabilistic language modelling, we will take a deep dive into our word2vec model(which is nothing, but a neural probabilistic language model without non-linearity).</li>
+<li>In the end, I will discuss about the practical issues of the model, and how to deal with it.</li>
+</ul>
+
+<h3>
+<a id="motivation-why-learn-word-embeddings" class="anchor" href="#motivation-why-learn-word-embeddings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Motivation: Why Learn Word Embeddings?</strong>
+</h3>
+
+<p>In order for a computer to process natural language, we need to create representation for the language, often times, the representation for the words. In many NLP tasks that use mathematical models such as neural networks, we would want to give an input to these models which should be in some mathematical format. We cannot give just raw words as input to the network. </p>
+
+<h3>
+<a id="traditional-methods" class="anchor" href="#traditional-methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Traditional Methods</strong>
+</h3>
+
+<p><strong>Bag of Words</strong></p>
+
+<p>English language has in the order of 100,000 words. One can represent each word as a one-hot vector of dimension 100,000(e.g. the word "cat" will be represented as V-dimensional vector : (0,0,0,1,0,0....0) if it's index is 4 in our dictionary). This is a sparse and high dimension input. Each word in the vocabulary is represented by one bit position in a HUGE vector. Moreover, contextual information is not utilized by this approach. It will just act like a look-up table.</p>
+
+<p>Our goal is to map this into dense, continuous and low dimensional input of around 300 dimension(e.g. the word "cat" now will be represented as a 300-dimensional vector which may look like (-0.4, 0.3, 0,6,.....)), such that the <strong>semantically similar</strong> words are mapped close to each other. This is where Vector Space Models(VSMs) come into picture. VSMs represent (embed) words in a continuous vector space where semantically similar words are mapped to nearby points ('are embedded nearby each other'). VSMs have a long, rich history in NLP, but all methods depend in some way or another on the Distributional Hypothesis, which states that words that appear in the same contexts share semantic meaning. The different approaches that leverage this principle can be divided into two categories: count-based methods (e.g. Latent Semantic Analysis), and predictive methods (e.g. neural probabilistic language models).</p>
+
+<p><strong>Matrix-Factorization</strong></p>
+
+<p>Matrix factorization methods are count-based methods and are very popular for generating low-dimensional word representations. These methods utilize low-rank approximations to decompose large matrices that capture statistical information about a corpus. The particular type of information captured by such matrices varies by application. In LSA, the matrices are of “term-document” type, i.e., the rows correspond to words or terms, and the columns correspond to different documents in the corpus. The entries in the matrix are filled according to the frequency of each term in each document. The consequence of the rank lowering is that some dimensions are combined and depend on more than one term: </p>
+
+<p>{(car), (truck), (flower)} --&gt; {(1.3452 * car + 0.2828 * truck), (flower)}</p>
+
+<p>Now, what do we mean by "low-rank approximation" of a matrix? it simply means combining similar row vectors into one, as in the above example. This is achieved by a technique known as Singular Value Decomposition(SVD).</p>
+
+<h3>
+<a id="language-modelling" class="anchor" href="#language-modelling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Language Modelling</strong>
+</h3>
+
+<p>Word embedding models are quite closely intertwined with language models. The quality of language models is measured based on their ability to learn a probability distribution over words in V. Before we get into the gritty details of word2vec model, let us briefly talk about some language modelling fundamentals.
+Language models generally try to compute the probability of a word wt given its n previous words, i.e. p(wt|wt−1,⋯wt−n+1).</p>
+
+<p>By applying the chain rule together with the Markov assumption, we can approximate the product of a whole sentence or document by the product of the probabilities of each word given its n previous words: </p>
+
+<p>p(w1,⋯,wT)=∏ip(wi|wi−1,⋯,wi−n+1)p(w1,⋯,wT)=∏ip(wi|wi−1,⋯,wi−n+1).</p>
+
+<p>In n-gram based language models, we can calculate a word's probability based on the frequencies of its constituent n-grams:</p>
+
+<p>p(wt|wt−1,⋯,wt−n+1)=count(wt−n+1,⋯,wt−1,wt)/count(wt−n+1,⋯,wt−1)</p>
+
+<p>If n=0, we call it unigram, if n=1, we call it bigram, and so on. We can extend it to trigram, 4-gram, 5-gram. But in general, we keep the value of n low, because as n increases, the sentence length that we need to find in the data increases. So, the occurrence of these long length sentences will be usually less in our corpus.
+In general, n-gram is an inefficient model of language. This is because language has long-distance dependencies. For example, consider the sentence :</p>
+
+<p><em>"The computer which I had just put into the machine room on the fifth floor crashed".</em> </p>
+
+<p>We would get poor prediction if we tried to predict the word "crashed" by considering even the 5 previous words(6-gram model).</p>
+
+<h3>
+<a id="word2vec-model" class="anchor" href="#word2vec-model" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Word2vec Model</h3>
+
+<p>Word2vec uses the concept of neural language modelling to learn vector representation of words. In neural language models, we achieve the same objective of predicting the next word of a sentence by using the well-known softmax function</p>
+
+<p>p(wt|wt−1,⋯,wt−n+1)=exp(h⊤v′wt)/∑wi∈Vexp(h⊤v′wi)</p>
+
+<p>The word2vec model can be trained via 2 tasks :</p>
+
+<ul>
+<li>Continuous Bag of Words(CBOW) : Predicts a word with input as a sequence of multiple words. This sequence is referred to as the context of the word that needs to be predicted.</li>
+<li>Skip Gram(SG) : Predicts multiple words with input as a context word. In this, a single word acts as a context to the multiple words being predicted.</li>
+</ul>
+
+<p>I will discuss the CBOW model in this article, but the idea remains the same for SG model as well. Theoretically, word2vec is a simple feed forward neural network, with a single hidden layer. We give the input to the network as the sum of all one-hot vectors of the corresponding context words. Let this final sum of vectors be represented by X. So X will be a Vx1 matrix, where V is the size of our dictionary. So X will somewhat look like this : (0,0,1,0,1,0,0,1,0....0), where 1 will occupy in the index of the context word in our dictionary, and 0 in the rest. Now we give this vector X as the input to our neural network.</p>
+
+<p><img src="http://postachio-images.s3-website-us-east-1.amazonaws.com/d7832041-1d7e-4ec7-bb7e-099193cc8c7d/097950f1-2231-48cb-9c3a-dcefa8ea3001/f297b956-90f2-4c29-9208-12be0050e819.png" alt="Word2vec Architecture"></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Siddhant7/word">word2vec</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
