@@ -1,25 +1,34 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
   <head>
-    <meta charset="UTF-8">
-    <title>word2vec by Siddhant7</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">word2vec</h1>
-      <h2 class="project-tagline"></h2>
-      <a href="https://github.com/Siddhant7/word2vec" class="btn">View on GitHub</a>
-      <a href="https://github.com/Siddhant7/word2vec/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/Siddhant7/word2vec/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
-    <section class="main-content">
-      <p>In this article, I try to explain the very popular word2vec model by <a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">Tomas Mikolov</a>. This model is used for learning vector representations of words, called "word embeddings".(supervised vs unsupervised)</p>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>word2vec by Siddhant7</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>word2vec</h1>
+        <h2></h2>
+        <a href="https://github.com/Siddhant7/word2vec" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p>In this article, I try to explain the very popular word2vec model by <a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">Tomas Mikolov</a>. This model is used for learning vector representations of words, called "word embeddings".</p>
 
 <h3>
 <a id="highlights" class="anchor" href="#highlights" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Highlights</strong>
@@ -81,11 +90,7 @@ In general, n-gram is an inefficient model of language. This is because language
 <h3>
 <a id="word2vec-model" class="anchor" href="#word2vec-model" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Word2vec Model</h3>
 
-<p>Word2vec is one of the most popular model for representing words as vectors. It is often referred to as unsupervised learning(though we use NN) only in the sense that it does not require labelled data. It uses the concept of neural language modelling to learn vector representation of words. In neural language models, we achieve the same objective of predicting the next word of a sentence by using the well-known softmax function</p>
-
-<p><img src="http://i.stack.imgur.com/m4x7n.jpg" alt="Softmax"></p>
-
-<p>p(wt|wt−1,⋯,wt−n+1)=exp(h⊤v′wt)/∑wi∈Vexp(h⊤v′wi)</p>
+<p>Word2vec is one of the most popular model for representing words as vectors. It is often referred to as unsupervised learning(though we use NN) only in the sense that it does not require labelled data. It uses the concept of neural language modelling to learn vector representation of words. In neural language models, we achieve the same objective of predicting the next word of a sentence by using the well-known softmax function.</p>
 
 <p>The word2vec model can be trained via 2 tasks :</p>
 
@@ -94,17 +99,42 @@ In general, n-gram is an inefficient model of language. This is because language
 <li>Skip Gram(SG) : Predicts multiple words with input as a context word. In this, a single word acts as a context to the multiple words being predicted.</li>
 </ul>
 
-<p>I will discuss the CBOW model in this article, but the idea remains the same for SG model as well. Theoretically, word2vec is a simple feed forward neural network, with a single hidden layer. We give the input to the network as the sum of all one-hot vectors of the corresponding context words. Let this final sum of vectors be represented by X. So X will be a Vx1 matrix, where V is the size of our dictionary. So X will somewhat look like this : (0,0,1,0,1,0,0,1,0....0), where 1 will occupy in the index of the context word in our dictionary, and 0 in the rest. Now we give this vector X as the input to our neural network.</p>
+<p>We will go through the CBOW model in this article, but the idea remains the same for SG model as well. Theoretically, word2vec is a <strong>fully connected feed forward neural network</strong>, with a single hidden layer. Below image describes the model architecture.</p>
 
 <p><img src="http://postachio-images.s3-website-us-east-1.amazonaws.com/d7832041-1d7e-4ec7-bb7e-099193cc8c7d/097950f1-2231-48cb-9c3a-dcefa8ea3001/f297b956-90f2-4c29-9208-12be0050e819.png" alt="Word2vec Architecture"></p>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/Siddhant7/word2vec">word2vec</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
+<p><strong>Input Layer</strong>
+We give the input to the network as the sum of all one-hot vectors of the corresponding context words. Let this final sum of vectors be represented by X. So X will be a Vx1 matrix, where V is the size of our dictionary. So X will somewhat look like this : (0,0,1,0,1,0,0,1,0....0), where 1 will occupy in the index of the context word in our dictionary, and 0 in the rest. Let us take input as a single word, for simplicity. Now we give this vector X as the input to our neural network.</p>
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
+<p><strong>Hidden Layer</strong>
+The input vector is then multiplied by the transpose of W, which is a VxN matrix. As the input vector is of the form (0,0,0,1,0,0,0...0), we just need to find one row vector of W(4th row in this case) instead of the whole matrix. The result is an Nx1 vector which is represented by <em>v</em>'.</p>
 
-    </section>
+<p><strong>Output Layer</strong>
+This vector <em>v</em>' is further multiplied by the transpose of W', which is an NxV matrix. The result would be a Vx1 vector. But we already know that the output vector is something of the form (0,1,0,0,0...0) where 1 would occupy the index of the next word in the sentence, which we are trying to predict. So by comparing the matrix multiplication with the actual output, we can observe that we just need to find one column vector of W'(2nd in this case) instead of the whole matrix.</p>
+
+<p>In order to get probabilities, we apply softmax function to this output.</p>
+
+<p><img src="http://i.stack.imgur.com/m4x7n.jpg" alt="Softmax"></p>
+
+<p>As we are dealing with probabilities, we would choose log-likelihood as our cost function to maximize this probability. </p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/Siddhant7/word2vec/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/Siddhant7/word2vec/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/Siddhant7/word2vec"></a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
 
   
   </body>
