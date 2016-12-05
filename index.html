@@ -157,11 +157,11 @@ Before proceeding further, I would like to give some clarity on the notation of 
 
 <p><img src="http://tech.opentable.com/wp-content/uploads/2015/07/wmd_illustration_1.png" alt="Intuition"></p>
 
-<p>All embedding methods, including word2vec are more or less factorization of co-occurrence matrix. Just to give intuition, following is a simple example of a co-occurrence matrix with only 3 sentences in our corpus. The window length of this particular matrix is 1, though we can have higher value.</p>
+<p>"Co-occurrence" is the only information that the network is getting. All embedding methods, including word2vec are more or less factorization of co-occurrence matrix. Just to give intuition, following is a simple example of a co-occurrence matrix with only 3 sentences in our corpus. The window length of this particular matrix is 1, though we can have higher value.</p>
 
 <p><img src="http://www.erogol.com/wp-content/uploads/2016/08/cooccurance_matrix.png" alt="matrix"></p>
 
-<p>As we can get an intuition that as we increase our corpus size, the semantically similar words will have similar vectors to each other. But this is high dimensional and sparse(many 0's) vector, which can be factorized into low dimensional vectors by keeping most of the information still intact by using SVD as discussed above. So now we have some intuition of "King - male + female ~ queen".</p>
+<p>As we can get an intuition that as we increase our corpus size, the semantically similar words will have similar looking vectors to each other(at least more similar looking than the semantically dissimilar words). But this is high dimensional and sparse(many 0's) vector, which can be factorized into low dimensional vectors by keeping most of the information still intact by using SVD as discussed above. So now we have some intuition of "King - male + female ~ queen".</p>
 
 <p>"The coordinates of the context vector represent topics. If the ith coordinate of the context corresponds to gender, its value represents the extent to which gender is being talked about at the moment. A positive value of this coordinate could correspond to maleness —leading to an increase in the probability of producing words like he, king, man— and negative value could correspond to femaleness —causing a probability increase for words like she, queen, woman."</p>
 
