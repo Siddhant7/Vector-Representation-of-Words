@@ -1,34 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <meta charset="UTF-8">
+    <title>Vector Representation of Words by Siddhant7</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <title>Vector Representation of Words by Siddhant7</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Vector Representation of Words</h1>
-        <h2></h2>
-        <a href="https://github.com/Siddhant7/Vector-Representation-of-Words" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
+    <section class="page-header">
+      <h1 class="project-name">Vector Representation of Words</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/Siddhant7/Vector-Representation-of-Words" class="btn">View on GitHub</a>
+      <a href="https://github.com/Siddhant7/Vector-Representation-of-Words/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Siddhant7/Vector-Representation-of-Words/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <p>In this article, I try to explain the very popular word2vec model by <a href="https://arxiv.org/pdf/1301.3781.pdf">Tomas Mikolov</a>. This model is used for learning vector representations of words, called "word embeddings".</p>
+    <section class="main-content">
+      <p>In this article, I try to explain the very popular word2vec model by <a href="https://arxiv.org/pdf/1301.3781.pdf">Tomas Mikolov</a>. This model is used for learning vector representations of words, called "word embeddings".</p>
 
 <h3>
 <a id="highlights" class="anchor" href="#highlights" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Highlights</strong>
@@ -116,8 +107,8 @@ This vector h is further multiplied by the transpose of W', which is an NxV matr
 
 <p><img src="http://i.stack.imgur.com/m4x7n.jpg" alt="Softmax"></p>
 
-<p>So we have to find a row vector of W(the second term in the numerator) and a column vector of W'(the first term in the numerator). In fact, these 2 vectors are the vector representations of the output word! Yes, each word is represented by two vectors, which can finally be summed to get one single representation. In order to find these two vectors, we first need to define our objective function.
-As we are dealing with probabilities, we would choose the maximum likelihood as the objective function to maximize this probability. Cost function J = -summation[log(P)], where P is as defined above. Now by applying Gradient Descent on this softmax probability together with the help of backpropagation, one can find these two vectors.</p>
+<p>So we have to find a row vector of W(the second term in the numerator) and a column vector of W'(the first term in the numerator). In fact, these 2 vectors are the vector representations of the output word! Yes, each word is represented by two vectors, which can finally be summed to get one single representation. Before proceeding further, I would like to give some clarity on the notation of these two vectors further in this article. The row vector of W is often referred to as the input vector or context vector, as we can clearly see in the architecture diagram that W is the weight matrix between input and hidden layer. So this vector is often subscripted with I, c or "in". Whereas the column vector of W' is often referred to as the output vector or word vector, as W' is the weight matrix between the hidden layer and the output layer. So this vector is often subscripted with O, w or "out".
+In order to find these two vectors, we first need to define our objective function. As we are dealing with probabilities, we would choose the maximum likelihood as the objective function to maximize this probability. Cost function J = -summation[log(P)], where P is as defined above. Now by applying Gradient Descent on this softmax probability together with the help of backpropagation, one can find these two vectors.</p>
 
 <p><img src="http://image.slidesharecdn.com/datadaytalk-160116232525/95/word2vec-lda-and-introducing-a-new-hybrid-algorithm-lda2vec-37-638.jpg?cb=1452987138" alt="GD"></p>
 
@@ -137,25 +128,15 @@ Now we solve this classification problem using logistic regression. Probability 
 
 <p><img src="http://images2015.cnblogs.com/blog/754644/201607/754644-20160729151919169-1347568501.jpg" alt="NS"></p>
 
-<p>Here _V_c is the row vector of W and _V_w is the column vector of W', same as it was in the numerator of the softmax function. These 2 vectors can now be calculated by using gradient descent, but this time the derivative required to calculate the updated vectors does not contain the summation as it was in the softmax function. </p>
-        </section>
+<p>Here Vc is the row vector of W and Vw is the column vector of W', same as it was in the numerator of the softmax function. These 2 vectors can now be calculated by using gradient descent, but this time the derivative required to calculate the updated vectors does not contain the summation as it was in the softmax function. This is the reason why Negative Sampling works in practice. In fact the the most popular word2vec model used in the industry is Skip-Gram with Negative Sampling(SGNS).</p>
 
-        <aside id="sidebar">
-          <a href="https://github.com/Siddhant7/Vector-Representation-of-Words/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/Siddhant7/Vector-Representation-of-Words/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Siddhant7/Vector-Representation-of-Words">Vector Representation of Words</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
 
-          <p class="repo-owner"><a href="https://github.com/Siddhant7/Vector-Representation-of-Words"></a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</p>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
+    </section>
 
   
   </body>
