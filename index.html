@@ -86,8 +86,8 @@ In general, n-gram is an inefficient model of language. This is because language
 <p>The word2vec model can be trained via 2 tasks :</p>
 
 <ul>
-<li>Continuous Bag of Words(CBOW) : Predicts a word with input as a sequence of multiple words. This sequence is referred to as the context of the word that needs to be predicted.</li>
-<li>Skip Gram(SG) : Predicts multiple words with input as a context word. In this, a single word acts as a context to the multiple words being predicted.</li>
+<li>Continuous Bag of Words(CBOW) : Predicts center word from sum of surrounding word vectors. These surrounding word vectors are referred to as the context of the center word.</li>
+<li>Skip Gram(SG) : Predicts surrounding words by taking center word as the input. In this, the center word acts as a context to the surrounding words being predicted.</li>
 </ul>
 
 <p>We will go through the CBOW model in this article, but the idea remains the same for SG model as well. Theoretically, word2vec is a <strong>fully connected feed forward neural network</strong>, with a single hidden layer. Below image describes the model architecture.</p>
@@ -114,6 +114,11 @@ As we are dealing with probabilities, we would choose the maximum likelihood as 
 
 <h3>
 <a id="negative-sampling" class="anchor" href="#negative-sampling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Negative Sampling</h3>
+
+<p>To get rid of the normalization factor in softmax, Mikolov introduced Negative Sampling. In this, we treat the problem completely differently. We will assume that we are solving a classification problem. Consider two sets D and D'. D will contain all the (w,c) pairs that occur together in our corpus, and D' will contain the pairs which do not occur together. D' can be formed by random selection of words from the corpus. So we will give a pair to our classifier, and the classifier should assign a label to it, 1 means it is in the corpus, 0 means it is not in the corpus.
+Pr(Z=1 | (w,c)) is the probability that a pair is in D.
+Pr(Z=0 | (w,c)) is the probability that a pair is not in D.
+Now we solve this classification problem using logistic regression. probability distribution of Z can be defined as [Pr(Z=1 | (w,c))]^z * [1-Pr(Z=1 | (w,c))]^1-z</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Siddhant7/Vector-Representation-of-Words">Vector Representation of Words</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
