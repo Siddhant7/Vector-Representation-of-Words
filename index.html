@@ -119,10 +119,13 @@ Before proceeding further, I would like to give some clarity on the notation of 
 <h3>
 <a id="negative-sampling" class="anchor" href="#negative-sampling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Negative Sampling</h3>
 
-<p>To get rid of the normalization factor in softmax, Mikolov introduced Negative Sampling. In this, we treat the problem completely differently. We will assume that we are solving a classification problem. Consider two sets S and S'. S will contain all the (w,c) pairs that occur together in our corpus, and S' will contain the pairs which do not occur together. S' can be formed by random selection of words from the corpus. So we will give a pair to our classifier, and the classifier should assign a label to it, 1 means it is in the corpus, 0 means it is not in the corpus.
-Pr(D=1 | (w,c)) is the probability that a pair is in S.
-Pr(D=0 | (w,c)) is the probability that a pair is not in S.
-Now we solve this classification problem using logistic regression. Probability distribution of D can be defined as</p>
+<p>To get rid of the normalization factor in softmax, Mikolov introduced Negative Sampling. In this, we treat the problem completely differently. We will assume that we are solving a classification problem. Consider two sets S and S'. S will contain all the (w,c) pairs that occur together in our corpus, and S' will contain the pairs which do not occur together. S' can be formed by random selection of words from the corpus. So we will give a pair to our classifier, and the classifier should assign a label to it, 1 means it is in the corpus, 0 means it is not in the corpus.</p>
+
+<p>Pr(D=1 | (w,c)) is the probability that a pair is in S.</p>
+
+<p>Pr(D=0 | (w,c)) is the probability that a pair is not in S.</p>
+
+<p>Now we solve this classification problem using logistic regression. Probability distribution of D can be defined as</p>
 
 <p>[Pr(D=1 | (w,c))]^D * [1-Pr(D=1 | (w,c))]^1-D</p>
 
