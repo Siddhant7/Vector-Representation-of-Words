@@ -119,7 +119,7 @@ Before proceeding further, I would like to give some clarity on the notation of 
 <h3>
 <a id="negative-sampling" class="anchor" href="#negative-sampling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Negative Sampling</h3>
 
-<p>To get rid of the normalization factor in softmax, Mikolov introduced Negative Sampling. In this, we treat the problem completely differently. We will assume that we are solving a classification problem. Consider two sets S and S'. S will contain all the (w,c) pairs that occur together in our corpus, and S' will contain the pairs which do not occur together. S' can be formed by random selection of words from the corpus. So we will give a pair to our classifier, and the classifier should assign a label to it, 1 means it is in the corpus, 0 means it is not in the corpus.</p>
+<p>To get rid of the normalization factor in softmax, Mikolov introduced Negative Sampling. In this, we treat the problem completely differently. We will assume that we are solving a classification problem. Consider two sets S and S'. S will contain all the (w,c) pairs that occur together in our corpus, and S' will contain the pairs which do not occur together. So we will give a pair to our classifier, and the classifier should assign a label to it, 1 means it is in S, 0 means it is in S'. S' can be formed by random selection of words from the corpus. Note that when we pick one random word from the vocabulary, there is some tiny chance that the picked word is actually a valid context, but it is very small that we consider it 0.</p>
 
 <p>Pr(D=1 | (w,c)) is the probability that a pair is in S.</p>
 
@@ -133,7 +133,37 @@ Before proceeding further, I would like to give some clarity on the notation of 
 
 <p><img src="http://images2015.cnblogs.com/blog/754644/201607/754644-20160729151919169-1347568501.jpg" alt="NS"></p>
 
-<p>Here Vc is the row vector of W and Vw is the column vector of W', same as it was in the numerator of the softmax function. These 2 vectors can now be calculated by using gradient descent, but this time the derivative required to calculate the updated vectors does not contain the summation as it was in the softmax function. This is the reason why Negative Sampling works in practice. In fact the the most popular word2vec model used in the industry is Skip-Gram with Negative Sampling(SGNS).</p>
+<p>Here Vc is the row vector of W and Vw is the column vector of W', same as it was in the numerator of the softmax function. These 2 vectors can now be calculated by using gradient descent, but this time the derivative required to calculate the updated vectors does not contain the summation as it was in the softmax function. This is the reason why Negative Sampling works in practice. In fact the most popular word2vec model used in the industry is Skip-Gram with Negative Sampling(SGNS).</p>
+
+<h3>
+<a id="application" class="anchor" href="#application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Application</h3>
+
+<p>Finding low-dimensional vector representation for words was the initial motivation for word2vec, but the new representation respects some semantic rules like</p>
+
+<ul>
+<li>Words with similar meaning should be close to each other</li>
+<li>The direction from “do” to “doing” should be similar to “go” to “going”</li>
+<li>Doing addition: "King - male + female ~ queen" </li>
+</ul>
+
+<p>It is surprising that word2vec can give us this, without any label on the meaning of words. All it needs is words co-occurrence. This is the reason why word2vec became so popular, as these vectors, which can obey such semantic rules can be used for almost all NLP applications.</p>
+
+<p><img src="http://new.aylien.com/wp-content/uploads/2016/06/tumblr_inline_o8tinsmw081u37g00_540.png" alt="Application"></p>
+
+<h3>
+<a id="intuition" class="anchor" href="#intuition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Intuition</h3>
+
+<p>When I first got to know about "King - male + female ~ queen", I was amazed. So I tried hard to get some intuition as to what exactly is happening inside those networks that they are producing vectors with such good semantic properties. The below image explains a lot.</p>
+
+<p><img src="http://tech.opentable.com/wp-content/uploads/2015/07/wmd_illustration_1.png" alt="Intuition"></p>
+
+<p>All embedding methods, including word2vec are more or less factorization of co-occurrence matrix. Just to give intuition, following is a simple example of a co-occurrence matrix with only 3 sentences in our corpus. The window length of this particular matrix is 1, though we can have higher value.</p>
+
+<p><img src="http://www.erogol.com/wp-content/uploads/2016/08/cooccurance_matrix.png" alt="matrix"></p>
+
+<p>As we can get an intuition that as we increase our corpus size, the semantically similar words will have similar vectors to each other. But this is high dimensional and sparse(many 0's) vector, which can be factorized into low dimensional vectors by keeping most of the information still intact by using SVD as discussed above. So now we have some intuition of "King - male + female ~ queen".</p>
+
+<p>"The coordinates of the context vector represent topics. If the ith coordinate of the context corresponds to gender, its value represents the extent to which gender is being talked about at the moment. A positive value of this coordinate could correspond to maleness —leading to an increase in the probability of producing words like he, king, man— and negative value could correspond to femaleness —causing a probability increase for words like she, queen, woman."</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Siddhant7/Vector-Representation-of-Words">Vector Representation of Words</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
