@@ -119,21 +119,25 @@ This vector h is further multiplied by the transpose of W', which is an NxV matr
 <p>So we have to find a row vector of W(the second term in the numerator) and a column vector of W'(the first term in the numerator). In fact, these 2 vectors are the vector representations of the output word! Yes, each word is represented by two vectors, which can finally be summed to get one single representation. In order to find these two vectors, we first need to define our objective function.
 As we are dealing with probabilities, we would choose the maximum likelihood as the objective function to maximize this probability. Cost function J = -summation[log(P)], where P is as defined above. Now by applying Gradient Descent on this softmax probability together with the help of backpropagation, one can find these two vectors.</p>
 
+<p><img src="http://image.slidesharecdn.com/datadaytalk-160116232525/95/word2vec-lda-and-introducing-a-new-hybrid-algorithm-lda2vec-37-638.jpg?cb=1452987138" alt="GD"></p>
+
 <p>Notice that there is a summation in the denominator of the softmax probability. The derivative of the softmax will also consist of this summation. So in every iteration of gradient descent, one would have to calculate this sum, which will take a lot of time, specially if the size of our vocabulary is large, which is often the case. So we cannot use this in practice. But Tomas Mikolov also published <a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">this</a> paper in which he has introduced different objective functions to get away with the practical issues of the model. I will explain the one which is most successful and widely used : Negative Sampling.</p>
 
 <h3>
 <a id="negative-sampling" class="anchor" href="#negative-sampling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Negative Sampling</h3>
 
-<p>To get rid of the normalization factor in softmax, Mikolov introduced Negative Sampling. In this, we treat the problem completely differently. We will assume that we are solving a classification problem. Consider two sets D and D'. D will contain all the (w,c) pairs that occur together in our corpus, and D' will contain the pairs which do not occur together. D' can be formed by random selection of words from the corpus. So we will give a pair to our classifier, and the classifier should assign a label to it, 1 means it is in the corpus, 0 means it is not in the corpus.
-Pr(Z=1 | (w,c)) is the probability that a pair is in D.
-Pr(Z=0 | (w,c)) is the probability that a pair is not in D.
-Now we solve this classification problem using logistic regression. Probability distribution of Z can be defined as</p>
+<p>To get rid of the normalization factor in softmax, Mikolov introduced Negative Sampling. In this, we treat the problem completely differently. We will assume that we are solving a classification problem. Consider two sets S and S'. S will contain all the (w,c) pairs that occur together in our corpus, and S' will contain the pairs which do not occur together. S' can be formed by random selection of words from the corpus. So we will give a pair to our classifier, and the classifier should assign a label to it, 1 means it is in the corpus, 0 means it is not in the corpus.
+Pr(D=1 | (w,c)) is the probability that a pair is in S.
+Pr(D=0 | (w,c)) is the probability that a pair is not in S.
+Now we solve this classification problem using logistic regression. Probability distribution of D can be defined as</p>
 
-<p>[Pr(Z=1 | (w,c))]^z * [1-Pr(Z=1 | (w,c))]^1-z</p>
+<p>[Pr(D=1 | (w,c))]^D * [1-Pr(D=1 | (w,c))]^1-D</p>
 
 <p>We use maximum likelihood to maximize this probability.</p>
 
 <p><img src="http://images2015.cnblogs.com/blog/754644/201607/754644-20160729151919169-1347568501.jpg" alt="NS"></p>
+
+<p>Here _V_c is the row vector of W and _V_w is the column vector of W', same as it was in the numerator of the softmax function. These 2 vectors can now be calculated by using gradient descent, but this time the derivative required to calculate the updated vectors does not contain the summation as it was in the softmax function. </p>
         </section>
 
         <aside id="sidebar">
