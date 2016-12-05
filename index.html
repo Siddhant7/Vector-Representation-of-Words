@@ -61,7 +61,7 @@
 </h3>
 
 <p>Word embedding models are quite closely intertwined with language models. The quality of language models is measured based on their ability to learn a probability distribution over words in V. Before we get into the gritty details of word2vec model, let us briefly talk about some language modelling fundamentals.
-Language models generally try to compute the probability of a word wt given its n previous words, i.e. p(wt|wt−1,⋯wt−n+1).</p>
+Language models generally try to compute the probability of a word <strong>W</strong><em>t</em> given its n previous words, i.e. p(<strong>W</strong><em>t</em>|<strong>W</strong><em>t−1</em>,⋯<strong>W</strong><em>t−n+1</em>).</p>
 
 <p>By applying the chain rule together with the Markov assumption, we can approximate the product of a whole sentence or document by the product of the probabilities of each word given its n previous words: </p>
 
@@ -69,7 +69,7 @@ Language models generally try to compute the probability of a word wt given its 
 
 <p>In n-gram based language models, we can calculate a word's probability based on the frequencies of its constituent n-grams:</p>
 
-<p>p(wt|wt−1,⋯,wt−n+1)=count(wt−n+1,⋯,wt−1,wt)/count(wt−n+1,⋯,wt−1)</p>
+<p>p(<strong>W</strong><em>t</em>|<strong>W</strong><em>t−1</em>,⋯,<strong>W</strong><em>t−n+1</em>)=count(<strong>W</strong><em>t−n+1</em>,⋯,<strong>W</strong><em>t−1</em>,<strong>W</strong><em>t</em>)/count(<strong>W</strong><em>t−n+1</em>,⋯,<strong>W</strong><em>t−1</em>)</p>
 
 <p>If n=0, we call it unigram, if n=1, we call it bigram, and so on. We can extend it to trigram, 4-gram, 5-gram. But in general, we keep the value of n low, because as n increases, the sentence length that we need to find in the data increases. So, the occurrence of these long length sentences will be usually less in our corpus.
 In general, n-gram is an inefficient model of language. This is because language has long-distance dependencies. For example, consider the sentence :</p>
@@ -158,7 +158,7 @@ Before proceeding further, I would like to give some clarity on the notation of 
 
 <p><strong>Geometrical Intuition</strong></p>
 
-<p>"The coordinates of the context vector represent topics. If the ith coordinate of the context corresponds to gender, its value represents the extent to which gender is being talked about at the moment. A positive value of this coordinate could correspond to maleness —leading to an increase in the probability of producing words like he, king, man— and negative value could correspond to femaleness —causing a probability increase for words like she, queen, woman."</p>
+<p><em>"The coordinates of the context vector represent topics. If the ith coordinate of the context corresponds to gender, its value represents the extent to which gender is being talked about at the moment. A positive value of this coordinate could correspond to maleness —leading to an increase in the probability of producing words like he, king, man— and negative value could correspond to femaleness —causing a probability increase for words like she, queen, woman."</em></p>
 
 <h3>
 <a id="application" class="anchor" href="#application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Application</h3>
