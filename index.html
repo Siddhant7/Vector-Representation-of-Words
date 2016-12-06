@@ -107,7 +107,7 @@ This vector h is further multiplied by the transpose of W', which is an NxV matr
 
 <p><img src="http://i.stack.imgur.com/m4x7n.jpg" alt="Softmax"></p>
 
-<p>But we already know that the output vector is something of the form (0,1,0,0,0...0) where 1 would occupy the index of the next word in the sentence, which we are trying to predict. So by comparing the matrix multiplication with the actual output, we can observe that we just need to find one column vector of W'(2nd in this case) instead of the whole matrix.</p>
+<p>But we already know that the output vector is something of the form (0,1,0,0,0...0) where 1 would occupy the index of the next word in the sentence, which we are trying to predict. So by comparing the softmax output with the actual output, we can observe that we just need to find one column vector of W'(2nd in this case) instead of the whole matrix.</p>
 
 <p>So we have to find a row vector of W(the second term in the numerator of the above expression) and a column vector of W'(the first term in the numerator). In fact, these 2 vectors are the vector representations of the output word! Yes, each word is represented by two vectors, which can finally be summed to get one single representation.</p>
 
