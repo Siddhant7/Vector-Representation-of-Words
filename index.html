@@ -94,7 +94,7 @@ In general, n-gram is an inefficient model of language. This is because language
 
 <p><img src="http://postachio-images.s3-website-us-east-1.amazonaws.com/d7832041-1d7e-4ec7-bb7e-099193cc8c7d/097950f1-2231-48cb-9c3a-dcefa8ea3001/f297b956-90f2-4c29-9208-12be0050e819.png" alt="Word2vec Architecture"></p>
 
-<p>W is the weight matrix that transforms V-dimensional input layer into N-dimensional hidden layer and W' is the weight matrix which transforms N-dimensional hidden layer into V-dimensional output layer.</p>
+<p>W is the weight matrix that transforms V-dimensional input layer into N-dimensional hidden layer and W' is the weight matrix which transforms N-dimensional hidden layer into V-dimensional output layer. Note that these two matrices are not the transpose of each other.</p>
 
 <p><strong>Input Layer</strong>
 We give the input to the network as the sum of all one-hot vectors of the corresponding context words. Let this final sum of vectors be represented by X. So X will be a Vx1 matrix, where V is the size of our dictionary. So X will somewhat look like this : (0,0,1,0,1,0,0,1,0....0), where 1 will occupy in the index of the context word in our dictionary, and 0 in the rest. Let us take input as a single word, for simplicity. Now we give this vector X as the input to our neural network.</p>
