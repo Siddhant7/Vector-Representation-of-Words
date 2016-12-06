@@ -68,7 +68,8 @@ In general, n-gram is an inefficient model of language. This is because language
 <p>We would get poor prediction if we tried to predict the word "crashed" by considering even the 5 previous words(6-gram model).</p>
 
 <h3>
-<a id="word2vec-model" class="anchor" href="#word2vec-model" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Word2vec Model</h3>
+<a id="word2vec" class="anchor" href="#word2vec" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Word2vec</strong>
+</h3>
 
 <p>Word2vec is one of the most popular model for representing words as vectors. It is often referred to as unsupervised learning(though we use NN) only in the sense that it does not require labelled data. It uses the concept of neural language modelling to learn vector representation of words. In neural language models, we achieve the same objective of predicting the next word of a sentence by using the well-known softmax function.</p>
 
@@ -108,7 +109,8 @@ Before proceeding further, I would like to give some clarity on the notation of 
 <p>Notice that there is a summation in the denominator of the softmax probability. The derivative of the softmax will also consist of this summation. So in every iteration of gradient descent, one would have to calculate this sum, which will take a lot of time, specially if the size of our vocabulary is large, which is often the case. So we cannot use this in practice. But Tomas Mikolov also published <a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">this</a> paper in which he has introduced different objective functions to get away with the practical issues of the model. I will explain the one which is most successful and widely used : Negative Sampling.</p>
 
 <h3>
-<a id="negative-sampling" class="anchor" href="#negative-sampling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Negative Sampling</h3>
+<a id="negative-sampling" class="anchor" href="#negative-sampling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Negative Sampling</strong>
+</h3>
 
 <p>To get rid of the normalization factor in softmax, Mikolov introduced Negative Sampling. In this, we treat the problem completely differently. We will assume that we are solving a classification problem. Consider two sets S and S'. S will contain all the (w,c) pairs that occur together in our corpus, and S' will contain the pairs which do not occur together. So we will give a pair to our classifier, and the classifier should assign a label to it, 1 means it is in S, 0 means it is in S'. S' can be formed by random selection of words from the corpus. Note that when we pick one random word from the vocabulary, there is some tiny chance that the picked word is actually a valid context, but it is very small that we consider it 0.</p>
 
@@ -127,7 +129,8 @@ Before proceeding further, I would like to give some clarity on the notation of 
 <p>Here Vc is the row vector of W and Vw is the column vector of W', same as it was in the numerator of the softmax function. These 2 vectors can now be calculated by using gradient descent, but this time the derivative required to calculate the updated vectors does not contain the summation as it was in the softmax function. This is the reason why Negative Sampling works in practice. In fact the most popular word2vec model used practically is Skip-Gram with Negative Sampling(SGNS).</p>
 
 <h3>
-<a id="intuition" class="anchor" href="#intuition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Intuition</h3>
+<a id="intuition" class="anchor" href="#intuition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Intuition</strong>
+</h3>
 
 <p>Finding low-dimensional vector representation for words was the initial motivation for word2vec, but the new representation respects some semantic rules like</p>
 
@@ -152,7 +155,8 @@ Before proceeding further, I would like to give some clarity on the notation of 
 <p><em>"The coordinates of the context vector represent topics. If the ith coordinate of the context corresponds to gender, its value represents the extent to which gender is being talked about at the moment. A positive value of this coordinate could correspond to maleness —leading to an increase in the probability of producing words like he, king, man— and negative value could correspond to femaleness —causing a probability increase for words like she, queen, woman."</em></p>
 
 <h3>
-<a id="application" class="anchor" href="#application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Application</h3>
+<a id="application" class="anchor" href="#application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Application</strong>
+</h3>
 
 <p>It is surprising that word2vec can give us this, without any label on the meaning of words. All it needs is words co-occurrence. This is the reason why word2vec became so popular, as these vectors, which can obey such semantic rules can be used for almost all NLP applications.</p>
 
