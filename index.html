@@ -141,11 +141,11 @@ Before proceeding further, I would like to give some clarity on the notation of 
 
 <p><img src="http://tech.opentable.com/wp-content/uploads/2015/07/wmd_illustration_1.png" alt="Intuition"></p>
 
-<p>"Co-occurrence" is the only information that the network is getting. All embedding methods, including word2vec are more or less factorization of co-occurrence matrix. Just to give intuition, following is a simple example of a co-occurrence matrix with only 3 sentences in our corpus. The window length of this particular matrix is 1, though we can have higher value.</p>
+<p>"Co-occurrence" is the key here. In fact, it is the only information that the network is getting. All embedding methods, including word2vec are more or less factorization of co-occurrence matrix. Just to give intuition, following is a simple example of a co-occurrence matrix with only 3 sentences in our corpus. The window length of this particular matrix is 1, though we can have higher value.</p>
 
 <p><img src="http://www.erogol.com/wp-content/uploads/2016/08/cooccurance_matrix.png" alt="matrix"></p>
 
-<p>From intuition, we can see that as we increase our corpus size, the semantically similar words will have similar looking vectors to each other(at least more similar looking than the semantically dissimilar words). But this is high dimensional and sparse(many 0's) vector, which can be factorized into low dimensional vectors by keeping most of the information still intact by using SVD as discussed above. So now we have some intuition of "King - male + female ~ queen".</p>
+<p>From intuition, we can see that as we increase our corpus size, the semantically similar words will have similar looking vectors to each other(at least more similar looking than the semantically dissimilar words). But this is high dimensional and sparse(many 0's) vector, which can be factorized into low dimensional vectors by keeping most of the information still intact by using SVD as discussed above. Word2vec somewhat does the same thing, but indirectly.</p>
 
 <p><strong>Geometrical Intuition</strong></p>
 
@@ -157,6 +157,8 @@ Before proceeding further, I would like to give some clarity on the notation of 
 <p>It is surprising that word2vec can give us this, without any label on the meaning of words. All it needs is words co-occurrence. This is the reason why word2vec became so popular, as these vectors, which can obey such semantic rules can be used for almost all NLP applications.</p>
 
 <p><img src="https://www.tensorflow.org/versions/r0.12/images/linear-relationships.png" alt="Application"></p>
+
+<p>As we can see that the difference between vector king and vector queen is similar to the difference between vector male and vector female. So, "King - queen ~ male - female", therefore, "King - male + female ~ queen". Similarly, "Spain - Madrid + Rome ~ Italy". Not only this, one can also find out how similar two words are by finding the cosine similarity between their vectors. This is something no NLP technique could achieve until word2vec and it is helping machine to understand language like humans.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Siddhant7/Vector-Representation-of-Words">Vector Representation of Words</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
