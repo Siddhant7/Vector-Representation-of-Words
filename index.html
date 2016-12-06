@@ -101,7 +101,7 @@ This vector h is further multiplied by the transpose of W', which is an NxV matr
 
 <p>So we have to find a row vector of W(the second term in the numerator) and a column vector of W'(the first term in the numerator). In fact, these 2 vectors are the vector representations of the output word! Yes, each word is represented by two vectors, which can finally be summed to get one single representation.</p>
 
-<p>*<em>Notation - *</em>
+<p><strong>Notation -</strong>
 Before proceeding further, I would like to give some clarity on the multiple notations of these two vectors that is used further in this article. The row vector of W is often referred to as the input vector or context vector, as we can clearly see in the architecture diagram that W is the weight matrix between input and hidden layer. So this vector is often subscripted with "I", "c" or "in". Whereas the column vector of W' is often referred to as the output word vector, as W' is the weight matrix between the hidden layer and the output layer. So this vector is often subscripted with "O", "w" or "out".</p>
 
 <p>In order to find these two vectors, we first need to define our objective function. As we are dealing with probabilities, we would choose the maximum likelihood as the objective function to maximize this probability. Cost function J = -summation[log(P)], where P is as defined above. Now by applying Gradient Descent on this softmax probability together with the help of backpropagation, one can find these two vectors.</p>
