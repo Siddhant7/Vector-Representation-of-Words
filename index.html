@@ -19,24 +19,13 @@
     </section>
 
     <section class="main-content">
-      <p>In this article, I try to explain the very popular word2vec model by <a href="https://arxiv.org/pdf/1301.3781.pdf">Tomas Mikolov</a>. This model is used for learning vector representations of words, called "word embeddings".</p>
-
-<h3>
-<a id="highlights" class="anchor" href="#highlights" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Highlights</strong>
-</h3>
-
-<ul>
-<li>I start by giving the motivation for why we would want to represent words as vectors.</li>
-<li>I will then briefly cover on the traditional methods used for word embeddings.</li>
-<li>After introducing the concept of probabilistic language modelling, we will take a deep dive into our word2vec model(which is nothing, but a neural probabilistic language model without non-linearity).</li>
-<li>In the end, I will discuss about the practical issues of the model, and how to deal with it.</li>
-</ul>
+      <p>Off lately, word embeddings have been exceptionally successful in many NLP tasks. This blog is my attempt towards explaining the very popular word2vec model by <a href="https://arxiv.org/pdf/1301.3781.pdf">Tomas Mikolov</a> and why the hype around it is true. This model is used for learning word embeddings, which is nothing but vector representations of words in low-dimensional vector space.</p>
 
 <h3>
 <a id="motivation-why-learn-word-embeddings" class="anchor" href="#motivation-why-learn-word-embeddings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Motivation: Why Learn Word Embeddings?</strong>
 </h3>
 
-<p>In order for a computer to process natural language, we need to create representation for the language, often times, the representation for the words. In many NLP tasks that use mathematical models such as neural networks, we would want to give an input to these models which should be in some mathematical format. We cannot give just raw words as input to the network. </p>
+<p>In order for a machine to process natural language, we need to create representation for the language, often times, the representation for the words. In many NLP tasks that use mathematical models such as neural networks, we would want to give an input to these models which should be in some mathematical format. We cannot give just raw words as input to the network. </p>
 
 <h3>
 <a id="traditional-methods" class="anchor" href="#traditional-methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Traditional Methods</strong>
@@ -165,7 +154,7 @@ Before proceeding further, I would like to give some clarity on the notation of 
 
 <p>It is surprising that word2vec can give us this, without any label on the meaning of words. All it needs is words co-occurrence. This is the reason why word2vec became so popular, as these vectors, which can obey such semantic rules can be used for almost all NLP applications.</p>
 
-<p><img src="http://new.aylien.com/wp-content/uploads/2016/06/tumblr_inline_o8tinsmw081u37g00_540.png" alt="Application"></p>
+<p><img src="https://www.tensorflow.org/versions/r0.12/images/linear-relationships.png" alt="Application"></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Siddhant7/Vector-Representation-of-Words">Vector Representation of Words</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
