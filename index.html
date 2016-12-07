@@ -138,7 +138,7 @@ Before proceeding further, I would like to give some clarity on the multiple not
 
 <p><img src="http://images2015.cnblogs.com/blog/754644/201607/754644-20160729151919169-1347568501.jpg" alt="NS"></p>
 
-<p>Here Vc is the row vector of W and Vw is the column vector of W', same as it was in the numerator of the softmax function. These 2 vectors can now be calculated by using gradient descent, but this time the derivative required to calculate the updated vectors does not contain the summation as it was in the softmax function. This is the reason why Negative Sampling works in practice. In fact the most popular word2vec model used practically is Skip-Gram with Negative Sampling(SGNS).</p>
+<p>Here Vc is the row vector of W and Vw is the column vector of W', same as it was in the numerator of the softmax function. These 2 vectors can now be calculated by using gradient descent, but this time the derivative required to calculate the updated vectors does not contain the summation as it was in the softmax function. This is the reason why Negative Sampling works in practice. In fact the most popular word2vec model used practically is Skip-Gram with Negative Sampling(SGNS).  <a href="https://github.com/tensorflow/tensorflow/blob/r0.12/tensorflow/examples/tutorials/word2vec/word2vec_basic.py">Here</a> is the code in Python for the same.</p>
 
 <h3>
 <a id="intuition" class="anchor" href="#intuition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Intuition</strong>
@@ -175,6 +175,16 @@ Before proceeding further, I would like to give some clarity on the multiple not
 <p>It is surprising that word2vec can give us this, without any label on the meaning of words. All it needs is words co-occurrence. This is something that no NLP technique could achieve until word2vec was introduced and it is helping machine to understand language like humans. This is the reason why word2vec became so popular, as these vectors, which can obey such semantic rules can be used for almost all NLP applications.</p>
 
 <p><strong>By building a sense of one word’s proximity to other similar words, which do not necessarily contain the same letters, we have certainly moved beyond hard tokens to a smoother and more general sense of meaning.</strong></p>
+
+<h3>
+<a id="reference-papers" class="anchor" href="#reference-papers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Reference Papers</strong>
+</h3>
+
+<ol>
+<li><p><a href="https://arxiv.org/pdf/1301.3781.pdf">Efficient Estimation of Word Representations in Vector Space</a> – Mikolov et al. 2013</p></li>
+<li><p><a href="https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">Distributed Representations of Words and Phrases and their Compositionality</a> – Mikolov et al. 2013</p></li>
+<li><p><a href="https://arxiv.org/pdf/1411.2738v3.pdf">word2vec Parameter Learning Explained</a> – Rong 2014</p></li>
+</ol>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Siddhant7/Vector-Representation-of-Words">Vector Representation of Words</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
