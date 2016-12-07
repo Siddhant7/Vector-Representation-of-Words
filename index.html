@@ -162,12 +162,6 @@ Before proceeding further, I would like to give some clarity on the multiple not
 
 <p><em>"The coordinates of the context vector represent topics. If the ith coordinate of the context corresponds to gender, its value represents the extent to which gender is being talked about at the moment. A positive value of this coordinate could correspond to maleness —leading to an increase in the probability of producing words like he, king, man— and negative value could correspond to femaleness —causing a probability increase for words like she, queen, woman."</em></p>
 
-<h3>
-<a id="application" class="anchor" href="#application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Application</strong>
-</h3>
-
-<p>It is surprising that word2vec can give us this, without any label on the meaning of words. All it needs is words co-occurrence. This is the reason why word2vec became so popular, as these vectors, which can obey such semantic rules can be used for almost all NLP applications.</p>
-
 <p><img src="https://www.tensorflow.org/versions/r0.12/images/linear-relationships.png" alt="Application"></p>
 
 <p>As we can see that the difference between vector king and vector queen is similar to the difference between vector male and vector female. So, "King - queen ~ male - female", therefore, "King - male + female ~ queen". Similarly, "Spain - Madrid + Rome ~ Italy". Not only this, one can also find out how similar two words are by finding the cosine similarity between their vectors. You can also query a Word2vec model for other assocations like :</p>
@@ -178,7 +172,9 @@ Before proceeding further, I would like to give some clarity on the multiple not
 <li>Library - Books = Hall</li>
 </ul>
 
-<p>By building a sense of one word’s proximity to other similar words, which do not necessarily contain the same letters, we have certainly moved beyond hard tokens to a smoother and more general sense of meaning. This is something that no NLP technique could achieve until word2vec was introduced and it is helping machine to understand language like humans.</p>
+<p>It is surprising that word2vec can give us this, without any label on the meaning of words. All it needs is words co-occurrence. This is the reason why word2vec became so popular, as these vectors, which can obey such semantic rules can be used for almost all NLP applications.</p>
+
+<p><strong><em>By building a sense of one word’s proximity to other similar words, which do not necessarily contain the same letters, we have certainly moved beyond hard tokens to a smoother and more general sense of meaning. This is something that no NLP technique could achieve until word2vec was introduced and it is helping machine to understand language like humans.</em></strong></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Siddhant7/Vector-Representation-of-Words">Vector Representation of Words</a> is maintained by <a href="https://github.com/Siddhant7">Siddhant7</a>.</span>
