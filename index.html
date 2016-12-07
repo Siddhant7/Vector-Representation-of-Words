@@ -49,7 +49,7 @@
 
 <p><img src="http://web.eecs.utk.edu/%7Emberry/order/img132.gif" alt="term-doc matrix"></p>
 
-<p>As we can see from these two matrices, semantically similar words will have similar looking rows to each other. So instead of just using the simple bag of words model, which does not take any contextual information of a word into account, this representation of words seems to have better semantic properties. But these are still high dimensional and sparse(many 0's) vectors, which can be factorized into low dimensional vectors by keeping most of the information still intact by using SVD.</p>
+<p>As we can see from these two matrices, semantically similar words will have similar looking rows to each other. So instead of just using the simple bag of words model, which does not take any contextual information of a word into account, we can use this representation of words as it seems to have better semantic properties. But these are still high dimensional and sparse(many 0's) vectors, which can be factorized into low dimensional vectors by keeping most of the information still intact by using SVD.</p>
 
 <p>The main difference between these two models is the type of contextual information they use. LSA and topic models use documents as contexts, whereas co-occurrence matrix and word2vec instead use words as contexts, which is arguably more natural from a linguistic perspective. These different contextual representations capture different types of semantic similarity; the document-based models capture semantic relatedness (e.g. “boat” – “water”) while the word-based models capture semantic similarity (e.g. “boat” – “ship”). This very basic difference is too often misunderstood.</p>
 
