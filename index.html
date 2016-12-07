@@ -39,19 +39,19 @@
 
 <p><strong>Matrix-Factorization</strong></p>
 
-<p>Matrix factorization methods are count-based methods and are very popular for generating low-dimensional word representations. These methods utilize low-rank approximations to decompose large matrices that capture statistical information about a corpus. The particular type of information captured by such matrices varies by application. In LSA, the matrices are of “term-document” type, i.e., the rows correspond to words or terms, and the columns correspond to different documents in the corpus. The entries in the matrix are filled according to the frequency of each term in each document. Following is an example of a term-document matrix : </p>
+<p>Matrix factorization methods are count-based methods and are very popular for generating low-dimensional word representations. These methods utilize low-rank approximations to decompose large matrices that capture statistical information about a corpus. The particular type of information captured by such matrices varies by application. Following is a simple example of a <strong>"co-occurrence"</strong> matrix with only 3 sentences in our corpus. The window length of this particular matrix is 1, though we can have higher value.</p>
+
+<p><img src="http://www.erogol.com/wp-content/uploads/2016/08/cooccurance_matrix.png" alt="matrix"></p>
+
+<p>From intuition, we can see that as we increase our corpus size, the semantically similar words will have similar looking vectors to each other(at least more similar looking than the semantically dissimilar words).</p>
+
+<p>In <strong>LSA</strong>, the matrices are of <strong>“term-document”</strong> type, i.e., the rows correspond to words or terms, and the columns correspond to different documents in the corpus. The entries in the matrix are filled according to the frequency of each term in each document. Following is an example of a term-document matrix : </p>
 
 <p><img src="http://web.eecs.utk.edu/%7Emberry/order/img132.gif" alt="term-doc matrix"></p>
 
-<p>As we can see from this matrix, similar words will have similar looking rows to each other.</p>
+<p>As we can see from these two matrices, semantically similar words will have similar looking rows to each other. So instead of just using the simple bag of words model, which does not take any contextual information of a word into account, this representation of words seems to have better semantic properties. But these are still high dimensional and sparse(many 0's) vectors, which can be factorized into low dimensional vectors by keeping most of the information still intact by using SVD.</p>
 
-<p>The consequence of the rank lowering is that some dimensions are combined and depend on more than one term: </p>
-
-<p>{(car), (truck), (flower)} --&gt; {(1.3452 * car + 0.2828 * truck), (flower)}</p>
-
-<p>Now the dimension that merged "car" and "truck", represents a general dimension of "vehicle". So, if the entry in this dimension for any particular document is high, it can be said that this document talks about topic "Vehicle". This is how LSA is used for topic modelling, or document classification.</p>
-
-<p>But what do we mean by "low-rank approximation" of a matrix? it simply means combining similar row vectors into one, as in the above example. This is achieved by a technique known as Singular Value Decomposition(SVD).</p>
+<p>The main difference between these two models is the type of contextual information they use. LSA and topic models use documents as contexts, whereas co-occurrence matrix and word2vec instead use words as contexts, which is arguably more natural from a linguistic perspective. These different contextual representations capture different types of semantic similarity; the document-based models capture semantic relatedness (e.g. “boat” – “water”) while the word-based models capture semantic similarity (e.g. “boat” – “ship”). This very basic difference is too often misunderstood.</p>
 
 <h3>
 <a id="language-modelling" class="anchor" href="#language-modelling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Language Modelling</strong>
@@ -156,11 +156,7 @@ Before proceeding further, I would like to give some clarity on the multiple not
 
 <p><img src="http://tech.opentable.com/wp-content/uploads/2015/07/wmd_illustration_1.png" alt="Intuition"></p>
 
-<p>"Co-occurrence" is the key here. In fact, it is the only information that the network is getting. All embedding methods, including word2vec are more or less factorization of co-occurrence matrix. Just to give intuition, following is a simple example of a co-occurrence matrix with only 3 sentences in our corpus. The window length of this particular matrix is 1, though we can have higher value.</p>
-
-<p><img src="http://www.erogol.com/wp-content/uploads/2016/08/cooccurance_matrix.png" alt="matrix"></p>
-
-<p>From intuition, we can see that as we increase our corpus size, the semantically similar words will have similar looking vectors to each other(at least more similar looking than the semantically dissimilar words). But this is high dimensional and sparse(many 0's) vector, which can be factorized into low dimensional vectors by keeping most of the information still intact by using SVD as discussed above. Word2vec somewhat does the same thing, but indirectly.</p>
+<p>"Co-occurrence" is the key here. In fact, it is the only information that the network is getting. All embedding methods, including word2vec are more or less factorization of co-occurrence matrix.</p>
 
 <p><strong>Geometrical Intuition</strong></p>
 
